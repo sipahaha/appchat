@@ -1,5 +1,5 @@
 <?php 
-include '../koneksi.php';
+include '../lib/koneksi.php';
 
 $id = $_GET['id'];
 $stmt = $pdo->prepare("DELETE FROM tb_users WHERE id = ?");
