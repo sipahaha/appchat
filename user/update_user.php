@@ -1,5 +1,5 @@
 <?php 
-include '../koneksi.php';
+include '../lib/koneksi.php';
 $id = $_GET['id'];
 $stmt = $pdo->prepare("SELECT * FROM tb_users WHERE id= ?");
 $stmt->execute([$id]);

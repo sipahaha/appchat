@@ -1,5 +1,5 @@
 <?php 
-include '../koneksi.php';
+include '../lib/koneksi.php';
 
 $stmt = $pdo->query("SELECT * FROM tb_users");
 $users = $stmt->fetchAll();
