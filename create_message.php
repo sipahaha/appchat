@@ -1,5 +1,5 @@
 <?php
-require 'koneksi.php';
+require 'lib/koneksi.php';
 
 $stmt = $pdo->query("SELECT * FROM tb_chats");
 $chats = $stmt->fetchAll();
