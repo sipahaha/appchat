@@ -1,5 +1,5 @@
 <?php
-include 'koneksi.php';
+include '../lib/koneksi.php';
 
 $chat_id = $_GET['chat_id'];
 $stmt = $pdo->prepare("SELECT * FROM tb_messages WHERE chat_id = ?");
