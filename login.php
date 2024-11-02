@@ -16,18 +16,16 @@
     <div class="container" style="width: 400px; margin-top: 50px;">
         <div class="row">
             <form>
+                <!-- input username -->
+                <div data-mdb-input-init class="form-outline mb-4">
+                <label class="form-label" for="form2Example1">Username</label>
+                    <input type="username" name="username" id="form2Example1" class="form-control" />
+                </div>
                 <!-- Email input -->
                 <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="email" id="form2Example1" class="form-control" />
-                    <label class="form-label" for="form2Example1">Email address</label>
+                <label class="form-label" for="form2Example1">Email address</label>
+                    <input type="email"  name="email" id="form2Example1" class="form-control" />
                 </div>
-
-                <!-- Password input -->
-                <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="password" id="form2Example2" class="form-control" />
-                    <label class="form-label" for="form2Example2">Password</label>
-                </div>
-
                 <!-- 2 column grid layout for inline styling -->
                 <div class="row mb-4">
                     <div class="col d-flex justify-content-center">
@@ -39,7 +37,7 @@
                     </div>
 
                 <!-- Submit button -->
-               <center> <button type="button" data-mdb-button-init data-mdb-ripple-init
+               <center> <button type="submit" data-mdb-button-init data-mdb-ripple-init
                     class="btn btn-primary btn-block mb-4" style="width:100px; margin-top: 15px;">Sign in</button> </center>
 
                 <!-- Register buttons -->
@@ -69,6 +67,23 @@
                 </form>
         </div>
     </div>
+
+    <?php
+      if (isset($_POST['btn'])) {
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+        $sqlclents = $conn->query("SELECT*FROM tb_users WHERE username='$username' AND email='$email'");
+        $sqlresult = $sqlclents->fetch_array();
+        $row = $sqlclents->num_rows;
+        if ($row > 0) {
+            $_SESSION['id'] = $sqlresult['id'];
+            header ('location:index.php');
+        }else{
+            print($conn->error);
+        }
+
+      }
+    ?>
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
