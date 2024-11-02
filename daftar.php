@@ -11,7 +11,7 @@
 
 <body>
     <center>
-        <h3  style="margin-top: 75px;">Login In Here</h3>
+        <h3  style="margin-top: 75px;">Sign In Here</h3>
     </center>
     <div class="container" style="width: 400px; margin-top: 50px;">
         <div class="row">
@@ -67,23 +67,21 @@
                 </form>
         </div>
     </div>
-
-    <?php
-      if (isset($_POST['btn'])) {
+<?php
+    include 'lib/koneksi.php';
+    
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $username = $_POST['username'];
         $email = $_POST['email'];
-        $sqlclents = $conn->query("SELECT*FROM tb_users WHERE username='$username' AND email='$email'");
-        $sqlresult = $sqlclents->fetch_array();
-        $row = $sqlclents->num_rows;
-        if ($row > 0) {
-            $_SESSION['id'] = $sqlresult['id'];
-            header ('location:index.php');
-        }else{
-            print($conn->error);
-        }
-
-      }
+    
+        $stmt = $pdo->prepare("INSERT INTO tb_users (username, email) VALUES ('$username', '$email')");
+        $stmt->execute([$username, $email]); // Perbaiki dari excute ke execute
+    
+        header("Location: read_users.php");
+        exit(); // Tambahkan exit setelah header untuk memastikan script berhenti
+    }
     ?>
+    
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
