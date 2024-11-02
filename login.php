@@ -26,18 +26,19 @@
             <p class="text-center fw-bold mx-3 mb-0">Or</p>
           </div>
 
-          <!-- Email input -->
+          <!-- username input -->
+             <!-- Email input -->
           <div data-mdb-input-init class="form-outline mb-4">
-            <input type="email" id="form3Example3" class="form-control form-control-lg"
+            <input type="username" id="username"  name="username" class="form-control form-control-lg"
               placeholder="Enter a valid email address" />
-            <label class="form-label" for="form3Example3">Email address</label>
+            <label class="form-label" for="form3Example3">Username</label>
           </div>
 
-          <!-- Password input -->
-          <div data-mdb-input-init class="form-outline mb-3">
-            <input type="password" id="form3Example4" class="form-control form-control-lg"
-              placeholder="Enter password" />
-            <label class="form-label" for="form3Example4">Password</label>
+          <!-- Email input -->
+          <div data-mdb-input-init class="form-outline mb-4">
+            <input type="email" id="email"  name="email" class="form-control form-control-lg"
+              placeholder="Enter a valid email address" />
+            <label class="form-label" for="form3Example3">Email address</label>
           </div>
 
           <div class="d-flex justify-content-between align-items-center">
@@ -88,3 +89,19 @@
     <!-- Right -->
   </div>
 </section>
+<?php
+      if (isset($_POST['btn'])) {
+        $username = $_POST['username'];
+        $email =  $_POST['email'];
+        $sqlclents = $conn->query("SELECT*FROM tb_users WHERE username='$username' AND email='$email'");
+        $sqlresult = $sqlclents->fetch_array();
+        $row = $sqlclents->num_rows;
+        if ($row > 0) {
+            $_SESSION['id'] = $sqlresult['id'];
+            header ('location:index.php');
+        }else{
+            print($conn->error);
+        }
+
+      }
+    ?>
