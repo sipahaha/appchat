@@ -1,35 +1,80 @@
 <?php
- include "lib/koneksi.php";
+include "lib/koneksi.php";
+
+// Inisialisasi variabel untuk menyimpan pesan error
+$error = '';
+$success = '';
+
+// Cek apakah form telah disubmit
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $sql = "SELECT * FROM tb_users WHERE username = :username AND email = :email";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':username', $username);
+    $stmt->bindParam(':email', $email);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if ($result) {
+        $error = 'Username atau email sudah terdaftar.';
+    } else {
+        // Simpan data pengguna ke database
+        $sww = "INSERT * INTO tb_users WHERE username = :username AND email = :email";
+        $stmt = $pdo->prepare($sww);
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+
+        if ($stmt->execute()) {
+            $success = 'Registrasi berhasil! Silakan login.';
+        } else {
+            $error = 'Terjadi kesalahan saat registrasi.';
+        }
+    }
+
+    $stmt->close();
+}
 ?>
 
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="id">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Sign Up</title>
 </head>
 
 <body>
-    <center>
-        <h3  style="margin-top: 75px;">Sign In Here</h3>
-    </center>
-    <div class="container" style="width: 400px; margin-top: 50px;">
+    <?php if ($error): ?>
+    <p style="color: red;"><?php echo $error; ?></p>
+    <?php endif; ?>
+    <?php if ($success): ?>
+    <p style="color: green;"><?php echo $success; ?></p>
+    <?php endif; ?>
+    <div class="container" style="width: 400px; margin-top: 75px;">
         <div class="row">
-            <form>
-                <!-- input username -->
-                <div data-mdb-input-init class="form-outline mb-4">
-                <label class="form-label" for="form2Example1">Username</label>
-                    <input type="username" name="username" id="form2Example1" class="form-control" />
-                </div>
+
+            <center>
+                <h2>Form Sign Up</h2>
+            </center>
+            <form method="POST">
                 <!-- Email input -->
                 <div data-mdb-input-init class="form-outline mb-4">
-                <label class="form-label" for="form2Example1">Email address</label>
-                    <input type="email"  name="email" id="form2Example1" class="form-control" />
+                    <input type="text" id="username" name="username" class="form-control" />
+                    <label class="form-label" for="usernam">Email address</label>
                 </div>
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <input type="text" id="email" name="email" class="form-control" />
+                    <label class="form-label" for="email">Email address</label>
+                </div>
+
+                <!-- Password input -->
+
                 <!-- 2 column grid layout for inline styling -->
                 <div class="row mb-4">
                     <div class="col d-flex justify-content-center">
@@ -40,57 +85,18 @@
                         </div>
                     </div>
 
-                <!-- Submit button -->
-               <center> <button type="submit" data-mdb-button-init data-mdb-ripple-init
-                    class="btn btn-primary btn-block mb-4" style="width:100px; margin-top: 15px;">Sign in</button> </center>
 
-                <!-- Register buttons -->
-                <div class="text-center">
-                    <p>Not a member? <a href="daftar.php">Register</a></p>
-                    <p>or sign up with:</p>
-                    <button type="button" data-mdb-button-init data-mdb-ripple-init
-                        class="btn btn-link btn-floating mx-1">
-                        <i class="fab fa-facebook-f"></i>
-                    </button>
-
-                    <button type="button" data-mdb-button-init data-mdb-ripple-init
-                        class="btn btn-link btn-floating mx-1">
-                        <i class="fab fa-google"></i>
-                    </button>
-
-                    <button type="button" data-mdb-button-init data-mdb-ripple-init
-                        class="btn btn-link btn-floating mx-1">
-                        <i class="fab fa-twitter"></i>
-                    </button>
-
-                    <button type="button" data-mdb-button-init data-mdb-ripple-init
-                        class="btn btn-link btn-floating mx-1">
-                        <i class="fab fa-github"></i>
-                    </button>
-                </div>
-                </form>
+                    <!-- Submit button -->
+                    <button type="submit" data-mdb-button-init data-mdb-ripple-init
+                        class="btn btn-primary btn-block mb-4">Sign
+                        Up</button>
+            </form>
         </div>
     </div>
-<?php
-    include 'lib/koneksi.php';
-    
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $username = $_POST['username'];
-        $email = $_POST['email'];
-
-        $stmt = $pdo->prepare("INSERT INTO tb_users (username, email) VALUES ('', '$username', '$email')");
-        $stmt->execute([$username, $email]); // Perbaiki dari excute ke execute
-    
-        header("Location: index.php");
-        exit(); // Tambahkan exit setelah header untuk memastikan script berhenti
-    }
-    ?>
-    
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
+</body>
 </body>
 
 </html>
