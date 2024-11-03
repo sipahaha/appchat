@@ -1,16 +1,13 @@
 <?php
-
-session_start(); // Mulai session
+session_start(); 
 include "lib/koneksi.php";
-// Cek apakah pengguna sudah login
+
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php"); // Redirect ke halaman login jika belum login
+    header("Location: login.php"); 
     exit();
 }
 
-// Ambil informasi pengguna dari session
 $username = $_SESSION['username'];
-
 ?>
 
 <html lang="id">

@@ -1,11 +1,9 @@
 <?php
 include "lib/koneksi.php";
 
-// Inisialisasi variabel untuk menyimpan pesan error
 $error = '';
 $success = '';
 
-// Cek apakah form telah disubmit
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $email = $_POST['email'];
@@ -20,22 +18,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result) {
         $error = 'Username atau email sudah terdaftar.';
     } else {
-        // Simpan data pengguna ke database
-        $sww = "INSERT * INTO tb_users WHERE username = :username AND email = :email";
-        $stmt = $pdo->prepare($sww);
+        $sql = "INSERT INTO tb_users (username, email) VALUES (:username, :email)";
+        $stmt = $pdo->prepare($sql);
+    
         $stmt->bindParam(':username', $username);
         $stmt->bindParam(':email', $email);
         $stmt->execute();
-
+    
+    }
         if ($stmt->execute()) {
-            $success = 'Registrasi berhasil! Silakan login.';
+            header("Location: index.php");
         } else {
             $error = 'Terjadi kesalahan saat registrasi.';
         }
     }
 
-    $stmt->close();
-}
 ?>
 
 <!DOCTYPE html>
@@ -64,32 +61,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </center>
             <form method="POST">
                 <!-- Email input -->
-                <div data-mdb-input-init class="form-outline mb-4">
+                <div data-mdb-input-init class="form-outline mb-4" style="margin-top: 20px;>
+                <label class="form-label" for="username">Username :</label>
                     <input type="text" id="username" name="username" class="form-control" />
-                    <label class="form-label" for="usernam">Email address</label>
                 </div>
                 <div data-mdb-input-init class="form-outline mb-4">
+                <label class="form-label" for="email">Email address : </label>
                     <input type="text" id="email" name="email" class="form-control" />
-                    <label class="form-label" for="email">Email address</label>
                 </div>
-
-                <!-- Password input -->
-
-                <!-- 2 column grid layout for inline styling -->
-                <div class="row mb-4">
-                    <div class="col d-flex justify-content-center">
-                        <!-- Checkbox -->
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
-                            <label class="form-check-label" for="form2Example31"> Remember me </label>
-                        </div>
-                    </div>
 
 
                     <!-- Submit button -->
-                    <button type="submit" data-mdb-button-init data-mdb-ripple-init
+                    <center><button type="submit" data-mdb-button-init data-mdb-ripple-init
                         class="btn btn-primary btn-block mb-4">Sign
-                        Up</button>
+                        Up</button></center>
             </form>
         </div>
     </div>

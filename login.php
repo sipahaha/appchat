@@ -14,20 +14,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bindParam(':username', $username);
     $stmt->bindParam(':email', $email);
     $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC); // Mengambil hasil sebagai associative array
+    $result = $stmt->fetch(PDO::FETCH_ASSOC); 
     
     if ($result) {
-        // Jika ditemukan, ambil data pengguna
-        $_SESSION['user_id'] = $result['id']; // Simpan ID pengguna dalam session
-        $_SESSION['username'] = $result['username']; // Simpan username dalam session
-        $_SESSION['email'] = $result['email']; // Simpan email dalam session
+        $_SESSION['user_id'] = $result['id']; 
+        $_SESSION['username'] = $result['username']; 
+        $_SESSION['email'] = $result['email']; 
 
-        // Redirect ke halaman index
         header("Location: index.php");
         exit();
     } else {
-        // Jika tidak ditemukan
-        $error = 'Username atau email tidak terdaftar.';
+        header("Location: daftar.php");
     }
 }
 ?>
@@ -45,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="container" style="width: 400px; margin-top: 75px;">
         <div class="row">
-            <h2>Form Login</h2>
+        <center><h2>Form Login</h2></center>
             <?php if ($error): ?>
             <p style="color: red;"><?php echo $error; ?></p>
             <?php endif; ?>
@@ -63,22 +60,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="text" id="email" name="email" class="form-control" />
                 </div>
 
-                <!-- Password input -->
-
-                <!-- 2 column grid layout for inline styling -->
-                <div class="row mb-4">
-                    <div class="col d-flex justify-content-center">
-                        <!-- Checkbox -->
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
-                            <label class="form-check-label" for="form2Example31"> Remember me </label>
-                        </div>
-                    </div>
 
 
                     <!-- Submit button -->
-                    <button type="submit" data-mdb-button-init data-mdb-ripple-init
-                        class="btn btn-primary btn-block mb-4">Login</button>
+                    <center> <button type="submit" data-mdb-button-init data-mdb-ripple-init
+                        class="btn btn-primary btn-block mb-4">Login</button></center>
 
                     <!-- Register buttons -->
                     <div class="text-center">
