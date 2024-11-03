@@ -1,3 +1,7 @@
+<?php
+ include "lib/koneksi.php";
+?>
+
 <!doctype html>
 <html lang="en">
 
