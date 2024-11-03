@@ -73,11 +73,11 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $username = $_POST['username'];
         $email = $_POST['email'];
-    
-        $stmt = $pdo->prepare("INSERT INTO tb_users (username, email) VALUES ('$username', '$email')");
+
+        $stmt = $pdo->prepare("INSERT INTO tb_users (username, email) VALUES ('', '$username', '$email')");
         $stmt->execute([$username, $email]); // Perbaiki dari excute ke execute
     
-        header("Location: read_users.php");
+        header("Location: index.php");
         exit(); // Tambahkan exit setelah header untuk memastikan script berhenti
     }
     ?>
