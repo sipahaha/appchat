@@ -1,12 +1,12 @@
 <?php
-require '../lib/koneksi.php';
+require 'lib/koneksi.php';
 $stmt = $pdo->prepare("SELECT * FROM tb_chats");
 $stmt->execute();
 $chats = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$username = $_SESSION['username'];
 ?>
+  </h1>
 <?php
-include "../lib/koneksi.php";
-
 // Menambahkan chat baru ke database
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['chat_name'])) {
     $chat_name = $_POST['chat_name'];
@@ -175,34 +175,21 @@ body {
 }
 
 .chat-input button:hover {
-    background-color: #128C7E; /* Darker green on hover */
+    background-color: #128C7E;
 }
-d
 </style>
 <body>
     <div class="chat-container">
-        <!-- Sidebar with chats list -->
-        <div class="sidebar">
-            <div class="create-chat">
-                <form method="POST" action="chat.php">
-                    <input type="text" name="chat_name" placeholder="New Chat Name" maxlength="100" required>
-                    <button type="submit">+ Create Chat</button>
-                </form>
-            </div>
-            <ul class="chat-list">
-                <?php foreach ($chats as $chat): ?>
-                    <li class="chat-item"><?php echo htmlspecialchars($chat['chat_name']); ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-        
-        <!-- Main chat window -->
         <div class="chat-window">
             <div class="chat-header">
-                <h2>Chat Room</h2>
+                <h2>
+                <?php foreach ($chats as $chat): ?>
+                        <a href="?page=create&id=<?=$chats['chat_name'];?>" style="color:white; text-decoration: none;"><?php echo htmlspecialchars($chat['chat_name']); ?></a></li>
+                    <?php endforeach; ?>
+                </h2>
             </div>
             <div class="chat-input">
-                <input type="text" placeholder="Type your message..." id="messageInput">
+                <input type="text" placeholder="Type your message.." id="messageInput">
                 <button id="sendMessageButton">Send</button>
             </div>
         </div>

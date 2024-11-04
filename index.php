@@ -7,23 +7,30 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$username = $_SESSION['username'];
+
 ?>
 
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Utama</title>
 </head>
+
 <body>
-    <h1>Selamat datang, <?php echo htmlspecialchars($username); ?>!</h1>
-    <p>Ini adalah halaman utama setelah login.</p>
-    
-    <h2>Menu</h2>
-    <ul>
-        <li><a href="profile.php">Profil Saya</a></li>
-        <li><a href="logout.php">Logout</a></li>
-    </ul>
+  
+    <?php
+        $page = isset($_GET['page'])?$_GET['page']:null;
+        if(isset($page)) {
+            if ($page=='create') {
+                include "modul/create_chat.php";
+             }
+            }else{
+                include "modul/default.php";
+            }
+
+             ?>
 </body>
+
 </html>
