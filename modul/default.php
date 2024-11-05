@@ -184,7 +184,8 @@ body {
             <div class="create-chat">
                 <form method="POST" action="chat.php">
                     <input type="text" name="chat_name" placeholder="New Chat Name" maxlength="150" required>
-                    <button type="submit">+ Create Chat</button>
+                    <button type="submit">Create Chat</button>
+                    <a href="?page=logout" class="btn btn-danger">Logout</a>
                 </form>
                 <ul class="chat-list">
                     <?php foreach ($chats as $chat): ?>
@@ -202,6 +203,7 @@ body {
                 <input type="text" placeholder="Type your message.." id="messageInput">
                 <button id="sendMessageButton">Send</button>
             </div>
+           
         </div>
     </div>
 </body>
