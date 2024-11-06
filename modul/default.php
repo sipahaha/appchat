@@ -5,7 +5,7 @@ $stmt->execute();
 $chats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $username = $_SESSION['username'];
 ?>
-  </h1>
+</h1>
 <?php
 // Menambahkan chat baru ke database
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['chat_name'])) {
@@ -26,6 +26,7 @@ $chats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,7 +34,7 @@ $chats = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="styles.css">
 </head>
 <style>
-    /* Reset default margin and padding */
+/* Reset default margin and padding */
 * {
     margin: 0;
     padding: 0;
@@ -76,7 +77,8 @@ body {
 
 .create-chat button {
     padding: 10px;
-    background-color: #25D366; /* WhatsApp green */
+    background-color: #25D366;
+    /* WhatsApp green */
     color: white;
     border: none;
     border-radius: 5px;
@@ -85,7 +87,8 @@ body {
 }
 
 .create-chat button:hover {
-    background-color: #128C7E; /* Darker green on hover */
+    background-color: #128C7E;
+    /* Darker green on hover */
 }
 
 /* Chat list styles */
@@ -104,7 +107,8 @@ body {
 }
 
 .chat-item:hover {
-    background-color: #f1f1f1; /* Light gray on hover */
+    background-color: #f1f1f1;
+    /* Light gray on hover */
 }
 
 /* Chat window styles */
@@ -117,7 +121,8 @@ body {
 
 /* Chat header styles */
 .chat-header {
-    background-color: #25D366; /* WhatsApp green */
+    background-color: #25D366;
+    /* WhatsApp green */
     color: white;
     padding: 15px;
     text-align: center;
@@ -139,12 +144,14 @@ body {
 }
 
 .incoming {
-    background-color: #e5e5e5; /* Light gray for incoming messages */
+    background-color: #e5e5e5;
+    /* Light gray for incoming messages */
     align-self: flex-start;
 }
 
 .outgoing {
-    background-color: #25D366; /* WhatsApp green for outgoing messages */
+    background-color: #25D366;
+    /* WhatsApp green for outgoing messages */
     color: white;
     align-self: flex-end;
 }
@@ -166,7 +173,8 @@ body {
 
 .chat-input button {
     padding: 10px;
-    background-color: #25D366; /* WhatsApp green */
+    background-color: #25D366;
+    /* WhatsApp green */
     color: white;
     border: none;
     border-radius: 5px;
@@ -178,6 +186,7 @@ body {
     background-color: #128C7E;
 }
 </style>
+
 <body>
     <div class="chat-container">
         <div class="sidebar">
@@ -187,14 +196,10 @@ body {
                     <button type="submit">Create Chat</button>
                     <a href="?page=logout" class="btn btn-danger">Logout</a>
                 </form>
-                <ul class="chat-list">
-                    <?php foreach ($chats as $chat): ?>
-                        <li class="chat-item"><a href="?page=create"><?php echo htmlspecialchars($chat['chat_name']); ?></a></li>
-                    <?php endforeach; ?>
-                </ul>
+
             </div>
-            </div>
-        
+        </div>
+        <!--         
         <div class="chat-window">
             <div class="chat-header">
                 <h2>Chat Room</h2>
@@ -202,9 +207,10 @@ body {
             <div class="chat-input">
                 <input type="text" placeholder="Type your message.." id="messageInput">
                 <button id="sendMessageButton">Send</button>
-            </div>
-           
-        </div>
+            </div> -->
+
+    </div>
     </div>
 </body>
+
 </html>
