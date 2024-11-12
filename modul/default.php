@@ -32,6 +32,14 @@ $stmt = $pdo->prepare("SELECT * FROM tb_chats");
 $stmt->execute();
 $chats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// tb user
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+
+
+
 // Mendapatkan chat_id dari query string, atau set null jika belum ada
 $chat_id = isset($_GET['chat_id']) ? $_GET['chat_id'] : null;
 ?>
@@ -204,7 +212,7 @@ $chat_id = isset($_GET['chat_id']) ? $_GET['chat_id'] : null;
             
             <?php foreach ($chats as $chat): ?>
                 <div>
-                    <a href="modul/read_chat.php?chat_id=<?= $chat['id'] ?>" class="chat-link">
+                    <a href="modul/read_chat.php?id=<?=$chat['id'] ?>" class="chat-link">
                         <?= htmlspecialchars($chat['chat_name']); ?>
                     </a>
                 </div>
@@ -214,7 +222,7 @@ $chat_id = isset($_GET['chat_id']) ? $_GET['chat_id'] : null;
             <!-- Jendela Chat atau Halaman Default -->
             <div class="chat-window">
                 <div class="default-view">
-                    <h2>Welcome to the Chat App!</h2>
+                    <h2><?php echo "Welcome to the Chat App " . htmlspecialchars($_SESSION['username']);?> !</h2>
                     <p>Choose a chat from the list on the left or create a new one.</p>
                     <a href="?page=keluar" class="btn btn-danger">Logout</a>
                 </div>
