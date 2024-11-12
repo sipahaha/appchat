@@ -7,6 +7,6 @@ $chats = $stmt->fetchAll();
 
 <ul class="chat-list">
                     <?php foreach ($chats as $chat): ?>
-                        <li class="chat-item"><a href="?page=chat_room&id=<?=$chats['id'];?>"><?php echo htmlspecialchars($chat['chat_name']); ?></a></li>
+                        <li class="chat-item"><a href="?page=chat_room&id=<?=$chat['id'];?>"><?php echo htmlspecialchars($chat['chat_name']); ?></a></li>
                     <?php endforeach; ?>
                 </ul>

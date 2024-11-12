@@ -1,8 +1,12 @@
-<?php
-    $id = $_GET['id'];
-    $sql = "SELECT * FROM tb_chats WHERE id = ':id'";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute();
-    $mess = $stmt->fetchAll();
+<?php 
+include 'lib/koneksi.php';
 
+$stmt = $pdo->query("SELECT * FROM tb_chats");
+$chats = $stmt->fetchAll();
 ?>
+
+<ul class="chat-list">
+                    <?php foreach ($chats as $chat): ?>
+                        <li class="chat-item"><a href="?page=chat_room&id=<?=$chats['id'];?>"><?php echo htmlspecialchars($chat['chat_name']); ?></a></li>
+                    <?php endforeach; ?>
+                </ul>

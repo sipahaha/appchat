@@ -1,19 +1,9 @@
 <?php
-require 'lib/koneksi.php';
+require '../lib/koneksi.php';
 
 // Memulai sesi jika belum dimulai
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['chat_name'])) {
-    $chat_name = $_POST['chat_name'];
-    $sql = "INSERT INTO tb_chats (chat_name) VALUES (:chat_name)";
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':chat_name', $chat_name);
-    $stmt->execute();
-    header("Location: index.php");
-    exit();
 }
 
 $username = $_SESSION['username'] ?? 'Anonymous';
@@ -188,14 +178,14 @@ $chat_id = isset($_GET['chat_id']) ? $_GET['chat_id'] : null;
             <h2>Chats</h2>
             
             <!-- Form untuk menambah chat -->
-            <form action="index.php" method="POST" class="add-chat-form">
+            <form action="" method="POST" class="add-chat-form">
                 <input type="text" name="chat_name" placeholder="New chat name" required>
                 <button type="submit">Add Chat</button>
             </form>
             
             <?php foreach ($chats as $chat): ?>
                 <div>
-                    <a href="modul/create_message.php?chat_id=<?= $chat['id'] ?>" class="chat-link">
+                    <a href="modul/send_message.php?chat_id=<?= $chat['id'] ?>" class="chat-link">
                     <?= htmlspecialchars($chat['chat_name']); ?>
                     </a>
                 </div>
