@@ -6,17 +6,26 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+$username = $_SESSION['username'] ?? 'Anonymous';
+// Menambahkan chat baru ke database
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['chat_name'])) {
     $chat_name = $_POST['chat_name'];
+
+    // Memasukkan chat baru ke database
     $sql = "INSERT INTO tb_chats (chat_name) VALUES (:chat_name)";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':chat_name', $chat_name);
     $stmt->execute();
-    header("Location: index.php");
-    exit();
-}
 
-$username = $_SESSION['username'] ?? 'Anonymous';
+    // Mendapatkan ID chat yang baru dimasukkan
+    $chat_id = $pdo->lastInsertId();
+    
+    if ($chat_id) {
+        $_SESSION['chat_id'] = $chat_id; // Menyimpan chat_id ke sesi
+    }
+
+   
+}
 
 // Mengambil daftar chat dari database
 $stmt = $pdo->prepare("SELECT * FROM tb_chats");
@@ -188,26 +197,27 @@ $chat_id = isset($_GET['chat_id']) ? $_GET['chat_id'] : null;
             <h2>Chats</h2>
             
             <!-- Form untuk menambah chat -->
-            <form action="index.php" method="POST" class="add-chat-form">
+            <form action="" method="POST" class="add-chat-form">
                 <input type="text" name="chat_name" placeholder="New chat name" required>
                 <button type="submit">Add Chat</button>
             </form>
             
             <?php foreach ($chats as $chat): ?>
                 <div>
-                    <a href="modul/create_message.php?chat_id=<?= $chat['id'] ?>" class="chat-link">
-                    <?= htmlspecialchars($chat['chat_name']); ?>
+                    <a href="modul/read_chat.php?chat_id=<?= $chat['id'] ?>" class="chat-link">
+                        <?= htmlspecialchars($chat['chat_name']); ?>
                     </a>
                 </div>
-            <?php endforeach; ?>
-        </div>
-
-        <!-- Jendela Chat atau Halaman Default -->
-        <div class="chat-window">
-            <div class="default-view">
-                <h2>Welcome to the Chat App!</h2>
-                <p>Choose a chat from the list on the left or create a new one.</p>
+                <?php endforeach; ?>
             </div>
+            
+            <!-- Jendela Chat atau Halaman Default -->
+            <div class="chat-window">
+                <div class="default-view">
+                    <h2>Welcome to the Chat App!</h2>
+                    <p>Choose a chat from the list on the left or create a new one.</p>
+                    <a href="?page=keluar" class="btn btn-danger">Logout</a>
+                </div>
         </div>
     </div>
 </body>

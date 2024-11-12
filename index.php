@@ -28,7 +28,7 @@ if (!isset($_SESSION['user_id'])) {
             if ($page=='create') {
                 include "modul/create_chat.php";
              }
-            if ($page=='logout') {
+            if ($page=='keluar') {
                 include "modul/logout.php";
              }
         }else{

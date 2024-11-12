@@ -1,14 +1,28 @@
 <?php
+session_start(); // Memulai sesi
 include "../lib/koneksi.php";
+
+$_SESSION['id'] = $chat_id;
 
 // Menambahkan chat baru ke database
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['chat_name'])) {
     $chat_name = $_POST['chat_name'];
+
+    // Memasukkan chat baru ke database
     $sql = "INSERT INTO tb_chats (chat_name) VALUES (:chat_name)";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':chat_name', $chat_name);
     $stmt->execute();
-    header("Location: chat.php");
+
+    // Mendapatkan ID chat yang baru dimasukkan
+    $chat_id = $pdo->lastInsertId();
+    
+    if ($chat_id) {
+        $_SESSION['chat_id'] = $chat_id; // Menyimpan chat_id ke sesi
+    }
+
+    // Redirect ke halaman chat atau halaman lain jika diperlukan
+    header("Location: chat.php?chat_id=" . $chat_id);
     exit();
 }
 
@@ -16,6 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['chat_name'])) {
 $sql = "SELECT * FROM tb_chats";
 $stmt = $pdo->query($sql);
 $chats = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 ?>
 
 <!DOCTYPE html>
